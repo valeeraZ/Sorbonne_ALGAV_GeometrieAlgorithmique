@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_collision" default="compile.module.collision">
+  <dirname property="module.collision.basedir" file="${ant.file.module_collision}"/>
+  
+  <property name="module.jdk.home.collision" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.collision" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.collision" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.collision" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="collision.output.dir" value="${module.collision.basedir}/out/production/Collision"/>
+  <property name="collision.testoutput.dir" value="${module.collision.basedir}/out/test/Collision"/>
+  
+  <path id="collision.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="collision.module.production.classpath">
+    <path refid="${module.jdk.classpath.collision}"/>
+    <pathelement location="${basedir}/jars/supportGUI.jar"/>
+  </path>
+  
+  <path id="collision.runtime.production.module.classpath">
+    <pathelement location="${collision.output.dir}"/>
+    <pathelement location="${basedir}/jars/supportGUI.jar"/>
+  </path>
+  
+  <path id="collision.module.classpath">
+    <path refid="${module.jdk.classpath.collision}"/>
+    <pathelement location="${collision.output.dir}"/>
+    <pathelement location="${basedir}/jars/supportGUI.jar"/>
+  </path>
+  
+  <path id="collision.runtime.module.classpath">
+    <pathelement location="${collision.testoutput.dir}"/>
+    <pathelement location="${collision.output.dir}"/>
+    <pathelement location="${basedir}/jars/supportGUI.jar"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.collision">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.collision">
+    <patternset refid="excluded.from.module.collision"/>
+  </patternset>
+  
+  <path id="collision.module.sourcepath">
+    <dirset dir="${module.collision.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.collision" depends="compile.module.collision.production,compile.module.collision.tests" description="Compile module Collision"/>
+  
+  <target name="compile.module.collision.production" depends="register.custom.compilers" description="Compile module Collision; production classes">
+    <mkdir dir="${collision.output.dir}"/>
+    <javac2 destdir="${collision.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.collision}/javac">
+      <compilerarg line="${compiler.args.collision}"/>
+      <bootclasspath refid="collision.module.bootclasspath"/>
+      <classpath refid="collision.module.production.classpath"/>
+      <src refid="collision.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.collision"/>
+    </javac2>
+    
+    <copy todir="${collision.output.dir}">
+      <fileset dir="${module.collision.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.collision.tests" depends="register.custom.compilers,compile.module.collision.production" description="compile module Collision; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.collision" description="cleanup module">
+    <delete dir="${collision.output.dir}"/>
+    <delete dir="${collision.testoutput.dir}"/>
+  </target>
+</project>
