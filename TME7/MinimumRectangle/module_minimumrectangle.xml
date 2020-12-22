@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_minimumrectangle" default="compile.module.minimumrectangle">
+  <dirname property="module.minimumrectangle.basedir" file="${ant.file.module_minimumrectangle}"/>
+  
+  <property name="module.jdk.home.minimumrectangle" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.minimumrectangle" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.minimumrectangle" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.minimumrectangle" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="minimumrectangle.output.dir" value="${module.minimumrectangle.basedir}/out/production/MinimumRectangle"/>
+  <property name="minimumrectangle.testoutput.dir" value="${module.minimumrectangle.basedir}/out/test/MinimumRectangle"/>
+  
+  <path id="minimumrectangle.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="minimumrectangle.module.production.classpath">
+    <path refid="${module.jdk.classpath.minimumrectangle}"/>
+    <pathelement location="${basedir}/jars/TME2_supportGUI.jar"/>
+  </path>
+  
+  <path id="minimumrectangle.runtime.production.module.classpath">
+    <pathelement location="${minimumrectangle.output.dir}"/>
+    <pathelement location="${basedir}/jars/TME2_supportGUI.jar"/>
+  </path>
+  
+  <path id="minimumrectangle.module.classpath">
+    <path refid="${module.jdk.classpath.minimumrectangle}"/>
+    <pathelement location="${minimumrectangle.output.dir}"/>
+    <pathelement location="${basedir}/jars/TME2_supportGUI.jar"/>
+  </path>
+  
+  <path id="minimumrectangle.runtime.module.classpath">
+    <pathelement location="${minimumrectangle.testoutput.dir}"/>
+    <pathelement location="${minimumrectangle.output.dir}"/>
+    <pathelement location="${basedir}/jars/TME2_supportGUI.jar"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.minimumrectangle">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.minimumrectangle">
+    <patternset refid="excluded.from.module.minimumrectangle"/>
+  </patternset>
+  
+  <path id="minimumrectangle.module.sourcepath">
+    <dirset dir="${module.minimumrectangle.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.minimumrectangle" depends="compile.module.minimumrectangle.production,compile.module.minimumrectangle.tests" description="Compile module MinimumRectangle"/>
+  
+  <target name="compile.module.minimumrectangle.production" depends="register.custom.compilers" description="Compile module MinimumRectangle; production classes">
+    <mkdir dir="${minimumrectangle.output.dir}"/>
+    <javac2 destdir="${minimumrectangle.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.minimumrectangle}/javac">
+      <compilerarg line="${compiler.args.minimumrectangle}"/>
+      <bootclasspath refid="minimumrectangle.module.bootclasspath"/>
+      <classpath refid="minimumrectangle.module.production.classpath"/>
+      <src refid="minimumrectangle.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.minimumrectangle"/>
+    </javac2>
+    
+    <copy todir="${minimumrectangle.output.dir}">
+      <fileset dir="${module.minimumrectangle.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.minimumrectangle.tests" depends="register.custom.compilers,compile.module.minimumrectangle.production" description="compile module MinimumRectangle; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.minimumrectangle" description="cleanup module">
+    <delete dir="${minimumrectangle.output.dir}"/>
+    <delete dir="${minimumrectangle.testoutput.dir}"/>
+  </target>
+</project>
