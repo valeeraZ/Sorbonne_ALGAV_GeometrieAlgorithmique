@@ -5,11 +5,13 @@ import Utils.Line;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 import static Utils.Maths.*;
 
 public class Welzl {
 
+    Random r = new Random();
 
     public Line calculDiametre(ArrayList<Point> points) {
         if (points.size() < 3) {
@@ -30,7 +32,6 @@ public class Welzl {
                     q = points.get(j);
                 }
             }
-
         }
 
         return new Line(p, q);
@@ -39,46 +40,27 @@ public class Welzl {
     // calculCercleMin: ArrayList<Point> --> Circle
     //   renvoie un cercle couvrant tout point de la liste, de rayon minimum.
     public Circle calculCercleMin(ArrayList<Point> points) {
-        if (points.isEmpty()) {
-            return null;
-        }
+        return welzl(points, new ArrayList<>());
+    }
 
-        Point center = points.get(0);
-        double radius = 1.0;
-        Circle circle = new Circle(center, (int)radius);
+    private Circle welzl(ArrayList<Point> P, ArrayList<Point> R){
+        ArrayList<Point> cP = new ArrayList<>(P);
+        ArrayList<Point> cR = new ArrayList<>(R);
 
-        for (Point p : points) {
-            for (Point q : points) {
+        Circle D = new Circle(new Point(0,0), 0);
 
-                center = midPoint(p, q);
-                radius = p.distance(q) / 2;
-                circle = new Circle(center, (int)radius);
-
-                if (pointsInCircle(circle, points)) {
-                    return circle;
-                }
+        if(cP.size() < 1 || cR.size() >= 3){
+            if(isConcyclic(cR))
+                D = pointsToCircle(cR);
+        }else {
+            int rand = r.nextInt(cP.size());
+            Point p = cP.remove(rand);
+            D = welzl(cP, cR);
+            if(! pointInCircle(D, p)){
+                cR.add(p);
+                D = welzl(cP, cR);
             }
         }
-
-        center = points.get(0);
-        radius = -1;
-        circle.setCenter(center);
-        circle.setRadius((int)radius);
-
-        for(Point p : points){
-            for(Point q : points){
-                for(Point r : points){
-                    if(crossProduct(p,q,p,r) == 0)
-                        continue;
-
-                    Circle circleTemp = triangleCircumscribedCircle(p,q,r);
-
-                    if (pointsInCircle(circleTemp, points))
-                        if(circleTemp.getRadius() < circle.getRadius() || circle.getRadius() == -1)
-                            circle = circleTemp;
-                }
-            }
-        }
-        return circle;
+        return D;
     }
 }
