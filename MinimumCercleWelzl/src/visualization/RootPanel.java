@@ -1,7 +1,7 @@
-package Visualization;
+package visualization;
 
-import Utils.Circle;
-import Utils.Line;
+import tools.Circle;
+import tools.Line;
 
 import javax.swing.*;
 import java.awt.*;

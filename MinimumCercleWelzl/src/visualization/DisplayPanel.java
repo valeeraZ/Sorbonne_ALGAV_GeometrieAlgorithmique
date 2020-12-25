@@ -1,7 +1,7 @@
-package Visualization;
+package visualization;
 
-import Utils.Circle;
-import Utils.Line;
+import tools.Circle;
+import tools.Line;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -74,7 +74,7 @@ public class DisplayPanel extends JPanel{
         for(int i = 0; i < this.circles.size(); ++i) {
             x = (int)((Circle)this.circles.get(i)).getCenter().getX() + this.xModifier;
             y = (int)((Circle)this.circles.get(i)).getCenter().getY() + this.yModifier;
-            r = ((Circle)this.circles.get(i)).getRadius();
+            r = (int)((Circle)this.circles.get(i)).getRadius();
             this.g2d.setColor(((Circle)this.circles.get(i)).getColor());
             Double c = new Double((double)(x - r), (double)(y - r), (double)(2 * r), (double)(2 * r));
             this.g2d.draw(c);

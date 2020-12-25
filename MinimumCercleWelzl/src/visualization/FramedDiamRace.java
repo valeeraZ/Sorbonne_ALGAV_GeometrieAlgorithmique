@@ -1,4 +1,4 @@
-package Visualization;
+package visualization;
 
 import java.awt.Dimension;
 import java.awt.Point;

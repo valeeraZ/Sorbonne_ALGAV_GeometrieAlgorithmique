@@ -3,10 +3,10 @@ package algorithms;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import Utils.Circle;
-import Utils.Line;
+import tools.Circle;
+import tools.Line;
 
-import static Utils.Maths.*;
+import static tools.Maths.*;
 
 public class Naive {
 
@@ -45,14 +45,14 @@ public class Naive {
 
         Point center = points.get(0);
         double radius = 1.0;
-        Circle circle = new Circle(center, (int)radius);
+        Circle circle = new Circle(center, radius);
 
         for (Point p : points) {
             for (Point q : points) {
 
                 center = midPoint(p, q);
                 radius = p.distance(q) / 2;
-                circle = new Circle(center, (int)radius);
+                circle = new Circle(center, radius);
 
                 if (pointsInCircle(circle, points)) {
                     return circle;
@@ -63,7 +63,7 @@ public class Naive {
         center = points.get(0);
         radius = -1;
         circle.setCenter(center);
-        circle.setRadius((int)radius);
+        circle.setRadius(radius);
 
         for(Point p : points){
             for(Point q : points){

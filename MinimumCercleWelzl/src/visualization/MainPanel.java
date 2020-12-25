@@ -1,8 +1,8 @@
-package Visualization;
+package visualization;
 
 
-import Utils.Circle;
-import Utils.Line;
+import tools.Circle;
+import tools.Line;
 
 import java.awt.BorderLayout;
 import java.awt.Point;

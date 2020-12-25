@@ -1,4 +1,4 @@
-package Utils;
+package tools;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -35,12 +35,12 @@ public class Maths {
         Point center = new Point((int)x, (int) y);
         double radius = p.distance(center);
 
-        return new Circle(center, (int)radius);
+        return new Circle(center, radius);
     }
 
     public static boolean pointsInCircle(Circle circle, ArrayList<Point> points){
         for (Point s : points) {
-            if ((int)s.distance(circle.getCenter()) > circle.getRadius()) {
+            if (s.distance(circle.getCenter()) > circle.getRadius()) {
                 return false;
             }
         }
@@ -48,7 +48,7 @@ public class Maths {
     }
 
     public static boolean pointInCircle(Circle circle, Point point){
-        return (int) point.distance(circle.getCenter()) <= circle.getRadius();
+        return point.distance(circle.getCenter()) <= circle.getRadius();
     }
 
     public static boolean isConcyclic(ArrayList<Point> points){
@@ -70,7 +70,7 @@ public class Maths {
             Point q = points.get(1);
             Point center = midPoint(p, q);
             double radius = p.distance(q) / 2;
-            return new Circle(center, (int)radius);
+            return new Circle(center, radius);
         }else {
             Point p = points.get(0);
             Point q = points.get(1);

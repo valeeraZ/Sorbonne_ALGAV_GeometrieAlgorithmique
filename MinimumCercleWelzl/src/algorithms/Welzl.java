@@ -1,13 +1,13 @@
 package algorithms;
 
-import Utils.Circle;
-import Utils.Line;
+import tools.Circle;
+import tools.Line;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static Utils.Maths.*;
+import static tools.Maths.*;
 
 public class Welzl {
 

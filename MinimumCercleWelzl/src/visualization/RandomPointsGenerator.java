@@ -1,4 +1,4 @@
-package Visualization;
+package visualization;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

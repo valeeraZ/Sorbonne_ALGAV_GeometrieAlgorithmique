@@ -1,4 +1,4 @@
-package Visualization;
+package visualization;
 
 public class Variables {
     public static final String MAINPANEL = "1664";
