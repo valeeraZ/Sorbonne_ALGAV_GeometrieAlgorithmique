@@ -4,8 +4,7 @@ import tools.Circle;
 import tools.Line;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 import static tools.Maths.*;
 
@@ -43,6 +42,10 @@ public class Welzl {
         return welzl(points, new ArrayList<>());
     }
 
+    public Circle calculCercleMin2(HashSet<Point> points){
+        return welzl(points, new HashSet<>());
+    }
+
     private Circle welzl(ArrayList<Point> P, ArrayList<Point> R){
         ArrayList<Point> cP = new ArrayList<>(P);
         ArrayList<Point> cR = new ArrayList<>(R);
@@ -55,6 +58,28 @@ public class Welzl {
         }else {
             int rand = r.nextInt(cP.size());
             Point p = cP.remove(rand);
+            D = welzl(cP, cR);
+            if(! pointInCircle(D, p)){
+                cR.add(p);
+                D = welzl(cP, cR);
+            }
+        }
+        return D;
+    }
+
+    private Circle welzl(HashSet<Point> P, HashSet<Point> R){
+        HashSet<Point> cP = new HashSet<>(P);
+        HashSet<Point> cR = new HashSet<>(R);
+
+        Circle D = new Circle(new Point(0,0), 0);
+
+        if(cP.size() < 1 || cR.size() >= 3){
+            if(isConcyclic(cR))
+                D = pointsToCircle(cR);
+        }else {
+            Iterator<Point> it = P.iterator();
+            Point p = it.next();
+            cP.remove(p);
             D = welzl(cP, cR);
             if(! pointInCircle(D, p)){
                 cR.add(p);

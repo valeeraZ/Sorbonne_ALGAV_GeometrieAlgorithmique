@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -28,8 +29,7 @@ public class Test {
     protected static File result = new File("result");
     protected static String pattern = ".*\\.points";
 
-    long t1, t2;
-    double deltaX, deltaY, deltaRadius;
+    long t1, t2, t3;
 
     public static File[] getFileList() throws Exception {
         final Pattern p = Pattern.compile("^" + pattern + "$");
@@ -137,6 +137,13 @@ public class Test {
         System.out.print("welzlCircle = " + welzlCircle);
         System.out.println(" time = " + t2);
 
+        HashSet<Point> pointSet = new HashSet<>(points);
+        t3 = System.currentTimeMillis();
+        Circle welzlCircle2 = welzl.calculCercleMin2(pointSet);
+        t3 = System.currentTimeMillis() - t3;
+        System.out.print("welzlCircle2 = " + welzlCircle2);
+        System.out.println(" time = " + t3);
+
         double naiveX = naiveCircle.getCenter().x;
         double naiveY = naiveCircle.getCenter().y;
         double naiveRadius = naiveCircle.getRadius();
@@ -145,11 +152,7 @@ public class Test {
         double welzlY = welzlCircle.getCenter().y;
         double welzlRadius = welzlCircle.getRadius();
 
-        deltaX = Math.abs(naiveX - welzlX);
-        deltaY = Math.abs(naiveY - welzlY);
-        deltaRadius = Math.abs(naiveRadius - welzlRadius);
-
-        String contents = number + " " + t1 + " " + t2 + " " + deltaX + " " + deltaY + " " + deltaRadius + "\n";
+        String contents = number + " " + t1 + " " + t2 + " " + t3 + "\n";
         writeFile(result, contents);
 
         assertEquals(naiveX, welzlX, 4.0);

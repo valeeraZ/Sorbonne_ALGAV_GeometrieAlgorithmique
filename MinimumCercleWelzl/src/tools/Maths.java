@@ -1,9 +1,23 @@
 package tools;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Maths {
+
+    public static Point[] getPointsFromSet(int n, HashSet<Point> set) {
+        assert(set.size() >= n);
+        int i = 0;
+        Point[] res = new Point[n];
+        Iterator<Point> it = set.iterator();
+        while(i < n && it.hasNext()){
+            Point p = it.next();
+            res[i] = p;
+            i++;
+        }
+
+        return res;
+    }
 
     public static Point midPoint(Point p, Point q) {
         double x = (p.getX() + q.getX()) / 2;
@@ -64,6 +78,17 @@ public class Maths {
         }
     }
 
+    public static boolean isConcyclic(HashSet<Point> points){
+        if(points.size() < 2) return false;
+
+        if(points.size() == 2){
+            return true;
+        }else{
+            Point[] res = getPointsFromSet(3, points);
+            return crossProduct(res[0], res[1], res[0], res[2]) != 0;
+        }
+    }
+
     public static Circle pointsToCircle(ArrayList<Point> points){
         if(points.size() == 2){
             Point p = points.get(0);
@@ -78,5 +103,19 @@ public class Maths {
             return triangleCircumscribedCircle(p,q,r);
         }
 
+    }
+
+    public static Circle pointsToCircle(HashSet<Point> points){
+        Point[] res;
+
+        if(points.size() == 2){
+            res = getPointsFromSet(2, points);
+            Point center = midPoint(res[0], res[1]);
+            double radius = res[0].distance(res[1]) / 2;
+            return new Circle(center, radius);
+        }else{
+            res = getPointsFromSet(3, points);
+            return triangleCircumscribedCircle(res[0],res[1],res[2]);
+        }
     }
 }
