@@ -17,5 +17,5 @@
 
 2. Pour exécuter la suite de 1664 tests dans la classe `test.Test`, veuillez munir les bibliothèques JUnit 4 et JUnit 5 dans votre environnement de développement. 
 
-3. Vous pouvez aussi importer ce projet dans l'Eclipse, l'Intellij IDEA ou des autres IDEs.
+3. Vous pouvez aussi importer ce projet dans l'Eclipse, l'Intellij IDEA ou des autres IDEs. Veuillez vérifier ou ajouter les bibliothèques JUnit 4 et JUnit 5 dans `classpath` après l'importation du projet.
 
